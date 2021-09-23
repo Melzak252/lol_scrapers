@@ -40,6 +40,7 @@ class StatsScraper:
         }
 
     def get_champion_name(self, champion_html: HTML):
+
         champion_name_desc = champion_html.find(
             "h1.champion-stats-header-info__name", first=True
         ).text.strip()
