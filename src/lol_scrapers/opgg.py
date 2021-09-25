@@ -2,12 +2,13 @@ from typing import Union, Tuple
 
 from unidecode import unidecode
 
-from lol_scrapers.components import ItemScraper
-from lol_scrapers.components import RuneScraper
-from lol_scrapers.components import StatsScraper
+from lol_scrapers.components.items import ItemScraper
+from lol_scrapers.components.runes import RuneScraper
+from lol_scrapers.components.stats import StatsScraper
+from lol_scrapers.components.name import NameScraper
 
 
-class OPGGScraper(ItemScraper, RuneScraper, StatsScraper):
+class OPGGScraper:
     not_found_urls = [
         "https://eune.op.gg/champion/statistics",
         "https://eune.op.gg/aram/statistics",
@@ -16,9 +17,11 @@ class OPGGScraper(ItemScraper, RuneScraper, StatsScraper):
     champion_url = "https://eune.op.gg/champion/{}/statistics/{}"
     aram_url = "https://eune.op.gg/aram/{}/statistics/{}"
 
-    @staticmethod
-    def src2https(src: str):
-        return f"https:{src}"
+    def __init__(self):
+        self.items = ItemScraper()
+        self.runes = RuneScraper()
+        self.stats = StatsScraper()
+        self.name = NameScraper()
 
     @staticmethod
     def refactor_champ_name(champ_name: Union[Tuple[str], str]) -> str:
