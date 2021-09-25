@@ -2,10 +2,10 @@ from typing import Union, Tuple
 
 from unidecode import unidecode
 
-from lol_scrapers.components.items import ItemScraper
-from lol_scrapers.components.runes import RuneScraper
-from lol_scrapers.components.stats import StatsScraper
-from lol_scrapers.components.name import NameScraper
+from lol_scrapers.items import ItemScraper
+from lol_scrapers.runes import RuneScraper
+from lol_scrapers.stats import StatsScraper
+from lol_scrapers.name import NameScraper
 
 
 class OPGGScraper:
