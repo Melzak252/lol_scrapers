@@ -7,21 +7,72 @@ class LOLChessScraper:
 
     @staticmethod
     def src2https(src: str):
+        """Formats src urls to https type
+        """
         return f"https:{src}"
 
-    def get_all_traits_data(self, resp: HTML):
-        origin_divs, class_divs = resp.find(".row.row-normal")
+    def get_all_traits_data(self, synergies_html: HTML):
+        """Scraps all traits data lolchess html page abot given champion.
+
+        We re looking for two divs fitst about origins, second about classes.
+        Then we re extracting all trats data from div.
+
+        Parameters
+        __________
+        synergies_html: HTML
+            The synergies HTML object with all traits
+
+        Returns
+        _______
+        dict
+            Dict with all collected data about traits
+        Example
+        _______
+        >>> session = HTMLSession()
+        >>> resp = session.get("https://synergies_url")
+        >>> LOLChessScraper().get_all_traits_data(resp.html)
+        {
+            'url': 'https://synergies_url',
+            "traits": [
+                {
+                    "type": "class",
+                    "name": "Legionare,
+                    "no_champions": 4,
+                    "description": "Champions got buffed...",
+                    "champions": [
+                        {"name": "Kalista", "cost": "$1"},
+                        ...
+                    ],
+                    "values": ["(3) Buff", ...],
+                },
+                ...
+            ]
+        }
+        """
+        origin_divs, class_divs = synergies_html.find(".row.row-normal")
         traits = []
         origins = self._get_traits_from_div(origin_divs, "origin")
         classes = self._get_traits_from_div(class_divs, "class")
         traits.extend(origins)
         traits.extend(classes)
 
-        return {"traits": traits, "url": resp.url}
+        return {"traits": traits, "url": synergies_html.url}
 
     @staticmethod
-    def get_all_traits_names(resp: HTML) -> Dict[str, List[str]]:
-        traits_div = resp.find(".guide-synergy__header.clearfix")
+    def get_all_traits_names(synergies_html: HTML) -> Dict[str, List[str]]:
+        """Scraps all traits name from synergies_html
+
+        Parameter
+        _________
+        synergies_html: HTML
+            Synergies HTML object with all traits
+
+        Returns
+        _______
+        dict
+            Dict containing list of all traits names
+        """
+        traits_div = synergies_html.find(".guide-synergy__header.clearfix")
         traits = []
         for trait in traits_div:
             champions_in_trait = trait.find("a")
