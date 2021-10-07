@@ -46,7 +46,10 @@ class NameScraper:
         champion_tier = champion_html.find(".champion-stats-header-info__tier", first=True).find(
             "b",
             first=True
-        ).text.strip()
+        )
+
+        if champion_tier is not None:
+            champion_tier = champion_tier.text.strip()
 
         champion_img = champion_html.find(".champion-stats-header-info__image", first=True).find(
             "img", first=True
