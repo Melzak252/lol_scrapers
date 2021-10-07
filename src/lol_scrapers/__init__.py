@@ -66,18 +66,20 @@ class LOLRequest:
             If given data are correct returns True else False
         Union[HTML, None]
             If cannot get HTML object returns None else HTML object
+        Union[HTML, None]
+            If data is correct then return role else None
         """
 
         isvalid = self._check_role_champ(role, champion_name)
 
         if not isvalid:
-            return False, None
+            return False, None, None
 
         role, champion_name = isvalid
 
         champion_name = self._refactor_champ_name(champion_name)
         if not champion_name.isalpha():
-            return False, None
+            return False, None, None
 
         if role == "aram":
             role = ""
@@ -85,7 +87,7 @@ class LOLRequest:
         else:
             resp = await self.asession.get(CHAMPION_URL.format(champion_name, role))
 
-        return True, resp.html
+        return True, resp.html, role
 
     def request_champion_html(self, role: str, champion_name: Union[str, Tuple[str]]):
         """Refactors given role and champion_name to send async request for champion HTML object
@@ -131,7 +133,7 @@ class LOLRequest:
         if resp.url in NOT_FOUND_URLS:
             return True, None
 
-        return True, resp.html
+        return True, resp.html, role
 
     @staticmethod
     def _refactor_champ_name(champion_name: Union[Tuple[str], str]) -> str:
