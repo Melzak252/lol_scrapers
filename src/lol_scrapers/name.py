@@ -28,7 +28,7 @@ class NameScraper:
         _______
         >>> session = HTMLSession()
         >>> resp = session.get("https://champion_url")
-        >>> StatsScraper().get_stats(resp.html)
+        >>> NameScraper().get_champion_name(resp.html)
         {
             'name': 'Rakan',
             'description': 'Build for Support',
@@ -36,11 +36,17 @@ class NameScraper:
             'url': 'https://url_to_champion_opgg_site'
         }
         """
+        champion_html = champion_html.find(".l-champion-statistics-header", first=True)
         champion_name_desc = champion_html.find(
             "h1.champion-stats-header-info__name", first=True
         ).text.strip()
         champion_name, *description = champion_name_desc.split(" ")
         description = " ".join(description)
+
+        champion_tier = champion_html.find(".champion-stats-header-info__tier", first=True).find(
+            "b",
+            first=True
+        ).text.strip()
 
         champion_img = champion_html.find(".champion-stats-header-info__image", first=True).find(
             "img", first=True
@@ -51,6 +57,7 @@ class NameScraper:
             "description": description.strip(),
             "icon_src": self.src2https(champion_img.attrs["src"]),
             "url": champion_html.url,
+            "tier": champion_tier
         }
 
     @staticmethod

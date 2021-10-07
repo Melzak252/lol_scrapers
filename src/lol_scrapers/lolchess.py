@@ -85,7 +85,7 @@ class LOLChessScraper:
         }
 
     def get_icon(self, resp_icon: HTML, trait_name: str) -> Dict[str, Union[str, None]]:
-        table = resp_icon.find("table.guide-items-table")[-1]
+        *_, table = resp_icon.find("table.guide-items-table")
 
         imgs = table.find("img")
 
