@@ -2,10 +2,12 @@ from typing import List, Any
 
 from requests_html import Element, HTML
 
+from lol_scrapers.utils import src2https
+
 
 class ItemScraper:
 
-    def get_items(self, champion_html: HTML):
+    def scrape(self, champion_html: HTML):
         """Scraps item data from opgg html page abot given champion.
 
         We re looking for item table in html and if there is no tables
@@ -27,26 +29,20 @@ class ItemScraper:
             The dictionary with all collected data about most
             played items on given champion. Like boots, starter items
             and recommended build.
-
-        Example
-        _______
-        >>> session = HTMLSession()
-        >>> resp = session.get("https://champion_url")
-        >>> ItemScraper().get_items(resp.html)
-        {
-            "starter_items": [{
-                "win_rate": "50.74%",
-                "pick_rate": "24.56%",
-                "times_picked": "1765",
-                "items": [{
-                    "name": "Shurelia's Battlesong"
-                    "src": "https://url_to_item_icon"
-                    }, {...}, ...],
-                }, {...}, {...}],
-            "recommended_builds": [{...}, ...],
-            "boots": [{...}, ...],
-            "rip": True if champion is rip else False
-        }
+            {
+                "starter_items": [{
+                    "win_rate": "50.74%",
+                    "pick_rate": "24.56%",
+                    "times_picked": "1765",
+                    "items": [{
+                        "name": "Shurelia's Battlesong"
+                        "src": "https://url_to_item_icon"
+                        }, {...}, ...],
+                    }, {...}, {...}],
+                "recommended_builds": [{...}, ...],
+                "boots": [{...}, ...],
+                "rip": True if champion is rip else False
+            }
         """
 
         items_table = champion_html.find("table.champion-overview__table")
@@ -144,7 +140,7 @@ class ItemScraper:
         pick_rate, times_picked = pick_rate.text.strip().split(" ")
 
         formated_items = [
-            {"name": item, "src": self.src2https(src)}
+            {"name": item, "src": src2https(src)}
             for item, src in zip(items, imgs_src)
         ]
 
@@ -156,9 +152,3 @@ class ItemScraper:
         }
 
         return data
-
-    @staticmethod
-    def src2https(src: str):
-        """Formats src urls to https type
-        """
-        return f"https:{src}"

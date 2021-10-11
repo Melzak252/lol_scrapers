@@ -1,8 +1,10 @@
 from requests_html import HTML, Element
 
+from lol_scrapers.utils import src2https
+
 
 class RuneScraper:
-    def get_runes(self, champion_html: HTML):
+    def scrape(self, champion_html: HTML):
         """Scraps runes data from opgg html page abot given champion.
 
         We re looking for rune table in html and if there is no tables
@@ -23,31 +25,26 @@ class RuneScraper:
             The dictionary with all collected data about most
             played runes on given champion. Like statistics, runes and title.
 
-        Example
-        _______
-        >>> session = HTMLSession()
-        >>> resp = session.get("https://champion_url")
-        >>> RuneScraper().get_runes(resp.html)
-        {
-            "title": "Resolve + Domination,
-            "stats": {
-                "pick_rate": "20,78%",
-                "times_picked": "1353",
-                "win_rate": "50,43%",
+            {
+                "title": "Resolve + Domination,
+                "stats": {
+                    "pick_rate": "20,78%",
+                    "times_picked": "1353",
+                    "win_rate": "50,43%",
+                    },
+                "runes": {
+                   "main_rune": {
+                        "name": "Guardian",
+                        "src": "https://url_for_main_rune_icon",
+                    },
+                    "main_tree": [{
+                        "name": "Font of life"
+                        "src": "https://url_for_rune_icon"
+                        }, {...}, ...],
+                    "secondary_tree": [{...}, ...]
                 },
-            "runes": {
-               "main_rune": {
-                    "name": "Guardian",
-                    "src": "https://url_for_main_rune_icon",
-                },
-                "main_tree": [{
-                    "name": "Font of life"
-                    "src": "https://url_for_rune_icon"
-                    }, {...}, ...],
-                "secondary_tree": [{...}, ...]
-            },
-            "rip": True if champion is rip else False
-        }
+                "rip": True if champion is rip else False
+            }
         """
         runes_tables = champion_html.find("table.champion-overview__table--rune", first=True)
         rip = False
@@ -109,7 +106,7 @@ class RuneScraper:
             ".perk-page__item.perk-page__item--active"
         )
         runes = [
-            {"name": img.attrs["alt"], "src": self.src2https(img.attrs["src"])}
+            {"name": img.attrs["alt"], "src": src2https(img.attrs["src"])}
             for rune in runes
             for img in rune.find("img")
         ]
@@ -147,14 +144,8 @@ class RuneScraper:
         return {
             "main_rune": {
                 "name": main_rune,
-                "src": self.src2https(main_rune_src),
+                "src": src2https(main_rune_src),
             },
             "main_tree": main_tree,
             "secondary_tree": secondary_tree,
         }
-
-    @staticmethod
-    def src2https(src: str):
-        """Formats src urls to https type
-        """
-        return f"https:{src}"

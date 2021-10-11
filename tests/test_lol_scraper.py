@@ -9,5 +9,5 @@ import pytest
     ("wukong", "monkeyking"),
     (("Nunu", "&", "Willump"), "nunu")
 ])
-def test_refactor_name(champion_name, expected, lol_request):
-    assert lol_request._refactor_champ_name(champion_name) == expected
+def test_refactor_name(champion_name, expected, processor):
+    assert processor._refactor(champion_name) == expected

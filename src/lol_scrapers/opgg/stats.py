@@ -3,7 +3,7 @@ from requests_html import HTML
 
 class StatsScraper:
     @staticmethod
-    def get_stats(champion_html: HTML):
+    def scrape(champion_html: HTML):
         """Scraps general statistics data from opgg html page abot given champion.
 
         We re looking for roles played on this champion in header of champion page and
@@ -24,19 +24,14 @@ class StatsScraper:
             The dictionary with all collected data about most
             played roles, general win rate, champion tier.
 
-        Example
-        _______
-        >>> session = HTMLSession()
-        >>> resp = session.get("https://champion_url")
-        >>> StatsScraper().get_stats(resp.html)
-        {
-            "title": "Support Rakan Win Rate",
-            "win_rate": "50,75%" if win_rate != "%" else None,
-            "role_pick_rates": {
-                'Support': '100%'
-                },
-            "champion_tier": "Tier 3",
-        }
+            {
+                "title": "Support Rakan Win Rate",
+                "win_rate": "50,75%" if win_rate != "%" else None,
+                "role_pick_rates": {
+                    'Support': '100%'
+                    },
+                "champion_tier": "Tier 3",
+            }
         """
 
         champion_stats_div = champion_html.find(".champion-stats-header", first=True)
@@ -76,9 +71,3 @@ class StatsScraper:
             "champion_tier": champion_tier,
             "rip": rip
         }
-
-    @staticmethod
-    def src2https(src: str):
-        """Formats src urls to https type
-        """
-        return f"https:{src}"
