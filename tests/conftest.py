@@ -1,14 +1,8 @@
 import pytest
 
-from lol_scrapers import LOLRequest
-from lol_scrapers.opgg import OPGGScraper
-from lol_scrapers.lolchess import LOLChessScraper
+from lol_scrapers import LOLScraper
+from lol_scrapers.request import LolRequest
 from lol_scrapers.utils.processor import ChampionNameProcessor
-
-
-@pytest.fixture(scope="session")
-def opgg_scraper():
-    return OPGGScraper()
 
 
 @pytest.fixture(scope="session")
@@ -17,10 +11,10 @@ def processor():
 
 
 @pytest.fixture(scope="session")
-def lolchess_scraper():
-    return LOLChessScraper()
+def scraper():
+    return LOLScraper()
 
 
 @pytest.fixture(scope="session")
 def lol_request():
-    return LOLRequest()
+    return LolRequest()
