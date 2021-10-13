@@ -6,5 +6,5 @@ from requests_html import HTML
 class ScrapeStrategy(ABC):
 
     @abstractmethod
-    def scrape(self, html: HTML, *args):
+    def scrape(self, html: HTML):
         pass

@@ -8,17 +8,12 @@ from lol_scrapers.utils.processor import ChampionNameProcessor
 
 
 class ChampionStrategy(RequestStrategy):
-    def __init__(self):
-        self.processor = ChampionNameProcessor()
+    def __init__(self, champion: Tuple[str]):
+        self.processor = ChampionNameProcessor(champion)
 
-    def request(self, session: HTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
-        if "role" not in kwargs or "champion" not in kwargs:
-            return False, None
+    def request(self, session: HTMLSession) -> Tuple[bool, Union[HTML, None]]:
 
-        role = kwargs["role"]
-        champion = kwargs["champion"]
-
-        isvalid, role, champion_name = self.processor.process(role, champion)
+        isvalid, role, champion_name = self.processor.process()
         if not isvalid:
             return False, None
 
@@ -33,14 +28,9 @@ class ChampionStrategy(RequestStrategy):
 
         return isvalid, resp.html
 
-    async def arequest(self, session: AsyncHTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
-        if "role" not in kwargs or "champion" not in kwargs:
-            return False, None
+    async def arequest(self, session: AsyncHTMLSession) -> Tuple[bool, Union[HTML, None]]:
 
-        role = kwargs["role"]
-        champion = kwargs["champion"]
-
-        isvalid, role, champion_name = self.processor.process(role, champion)
+        isvalid, role, champion_name = self.processor.process()
         if not isvalid:
             return False, None
 

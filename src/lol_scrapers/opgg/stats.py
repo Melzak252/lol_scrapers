@@ -5,7 +5,7 @@ from lol_scrapers.utils.abc.scraper_strategy import ScrapeStrategy
 
 class StatsScraper(ScrapeStrategy):
     @staticmethod
-    def scrape(champion_html: HTML, *args):
+    def scrape(champion_html: HTML):
         """Scraps general statistics data from opgg html page abot given champion.
 
         We re looking for roles played on this champion in header of champion page and

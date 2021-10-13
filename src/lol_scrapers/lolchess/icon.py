@@ -6,12 +6,15 @@ from lol_scrapers.utils.dataclasses.icon import Icon
 
 
 class IconScraper(ScrapeStrategy):
-    def scrape(self, html: HTML, *args: str) -> Icon:
+    def __init__(self, trait_name: str):
+        self.trait_name = trait_name
+
+    def scrape(self, html: HTML) -> Icon:
         *_, table = html.find("table.guide-items-table")
 
         images = table.find("img")
 
-        emblem = f"{''.join(args).title()} Emblem"
+        emblem = f"{self.trait_name.title()} Emblem"
         trait_icon = [img.attrs["src"] for img in images if img.attrs["alt"] == emblem]
 
         if not trait_icon:

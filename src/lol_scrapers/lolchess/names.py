@@ -19,6 +19,7 @@ class TraitNamesScraper(ScrapeStrategy):
             Dict containing list of all traits names
         """
         traits_div = synergies_html.find(".guide-synergy__header.clearfix")
+
         traits = []
         for trait in traits_div:
             champions_in_trait = trait.find("a")

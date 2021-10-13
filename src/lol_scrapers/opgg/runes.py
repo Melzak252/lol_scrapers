@@ -7,7 +7,7 @@ from lol_scrapers.utils.abc.scraper_strategy import ScrapeStrategy
 
 
 class RuneScraper(ScrapeStrategy):
-    def scrape(self, champion_html: HTML, *args):
+    def scrape(self, champion_html: HTML):
         runes_tables = champion_html.find("table.champion-overview__table--rune", first=True)
         if runes_tables is None:
             return RipChamp()

@@ -7,14 +7,7 @@ from lol_scrapers.request.abc import RequestStrategy
 
 
 class SynergyStrategy(RequestStrategy):
-    def request(self, session: HTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
-        """Async requests for lolchess synergies site and returns HTML object
-
-        Return
-        ______
-        HTML
-            HTML object with all traits data
-        """
+    def request(self, session: HTMLSession) -> Tuple[bool, Union[HTML, None]]:
         resp = session.get(SYNERGY_URL)
 
         if resp.status_code == 200:
@@ -22,14 +15,7 @@ class SynergyStrategy(RequestStrategy):
 
         return False, None
 
-    async def arequest(self, session: AsyncHTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
-        """Async requests for lolchess synergies site and returns HTML object
-
-        Return
-        ______
-        HTML
-            HTML object with all traits data
-        """
+    async def arequest(self, session: AsyncHTMLSession) -> Tuple[bool, Union[HTML, None]]:
         resp = await session.get(SYNERGY_URL)
 
         if resp.status_code == 200:

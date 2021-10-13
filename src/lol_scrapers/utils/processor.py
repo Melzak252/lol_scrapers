@@ -5,41 +5,24 @@ from lol_scrapers.utils import ROLES
 
 
 class ChampionNameProcessor:
+    def __init__(self, champion_tokens: Tuple[str]):
+        self.champion_tokens = champion_tokens
+        self.role = ""
 
-    def process(self, role, champion_name):
-        isvalid = self._check(role, champion_name)
+    def process(self):
+        isvalid = self._check()
 
         if not isvalid:
             return False, None, None
 
-        role, champion_name = isvalid
+        return True, self.role, self.name
 
-        champion_name = self._refactor(champion_name)
-        if not champion_name.isalpha():
-            return False, None, None
-
-        return True, role, champion_name
-
-    @staticmethod
-    def _refactor(champion_name: Union[Tuple[str], str]) -> str:
-        """Refactors given champion tokens to acceptable str format
-
-        Parameter
-        _________
-        champion_name: Union[Tuple[str], str]
-            Its tuple of tokens of champion name or string with main token
-
-        Returns
-        _______
-        str
-            Refactored str acceptable by opgg
-        """
-
-        if isinstance(champion_name, tuple):
-            champion_name = "".join(champion_name)
+    @property
+    def name(self) -> str:
+        champion_name = "".join(self.champion_tokens)
 
         champion_name = unidecode(champion_name)
-        champion_name = champion_name.replace(" ", "").replace("'", "").replace(".", "").replace(",", "").lower()
+
         if champion_name.lower().startswith("nunu"):
             champion_name = "nunu"
 
@@ -48,50 +31,28 @@ class ChampionNameProcessor:
 
         return champion_name
 
+    def _check(self):
+
+        if not self.champion_tokens or not self.champion_tokens[0]:
+            return False
+        self.champion_tokens = [
+            (token.replace(" ", "").replace("'", "").replace(".", "").replace(",", "").replace("&", "").lower())
+            for token in self.champion_tokens
+        ]
+
+        self.champion_tokens = [token for token in self.champion_tokens if token]
+
+        if not all(token.isalpha() for token in self.champion_tokens if token):
+            return False
+
+        if self.is_role(self.champion_tokens[0]):
+            if len(self.champion_tokens) == 1:
+                return False
+
+            self.role, *self.champion_tokens = self.champion_tokens
+
+        return True
+
     @staticmethod
-    def _check(role: str, champ: Union[str, Tuple[str]]):
-        """Checks if given parameters are valid and refactors them if needed
-
-         if role is not given or is empty string returns empty tuple as sign of invalid data
-         if role is nor in ROLES or is "aram" then role is consider as first token of champion name
-         else checks if there is given champion name if the champ is empty then returns empty tuple
-
-        Parameters
-        __________
-        role: str
-            Contains role name or champion name first token
-        champ: Union[str, Tuple[str]]
-            Contains tuple of champion name tokens or str with name
-
-        Returns
-        _______
-        If there are incorrect data
-            Tuple[()]
-                Empty tuple as a sign of incorrect data
-        else
-            str
-                Empty if there is no selected role else refactored selected role to acceptable version by opgg
-            Tuple[str]
-                Tokens of champion name
-
-        """
-        if not role:
-            return ()
-
-        role = role.lower()
-        if role == "aram":
-            if not champ:
-                return ()
-            return role, champ
-
-        if role in ROLES:
-            role = ROLES[role]
-
-            if not champ:
-                return ()
-
-            return role, champ
-
-        champion_tuple, role = (role, *champ), ""
-
-        return role, champion_tuple
+    def is_role(token) -> bool:
+        return token.lower() in ROLES or token.lower() == "aram"

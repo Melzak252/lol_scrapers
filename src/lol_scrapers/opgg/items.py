@@ -10,7 +10,7 @@ from lol_scrapers.utils.dataclasses import RipChamp
 
 class ItemScraper(ScrapeStrategy):
 
-    def scrape(self, champion_html: HTML, *args) -> Union[ChampionItems, RipChamp]:
+    def scrape(self, champion_html: HTML) -> Union[ChampionItems, RipChamp]:
         items_table = champion_html.find("table.champion-overview__table")
 
         if not items_table:

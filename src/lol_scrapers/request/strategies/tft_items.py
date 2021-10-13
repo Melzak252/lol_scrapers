@@ -7,7 +7,7 @@ from lol_scrapers.request.abc import RequestStrategy
 
 
 class TftItemsStrategy(RequestStrategy):
-    def request(self, session: HTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
+    def request(self, session: HTMLSession) -> Tuple[bool, Union[HTML, None]]:
         """Requests for lolchess items site and returns HTML object
 
         Returns
@@ -22,7 +22,7 @@ class TftItemsStrategy(RequestStrategy):
 
         return False, None
 
-    async def arequest(self, session: AsyncHTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
+    async def arequest(self, session: AsyncHTMLSession) -> Tuple[bool, Union[HTML, None]]:
         """Async requests for lolchess items site and returns HTML object
 
         Return

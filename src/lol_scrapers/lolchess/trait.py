@@ -8,9 +8,12 @@ from lol_scrapers.utils.dataclasses.trait import Trait
 
 
 class TraitScraper(ScrapeStrategy):
-    def scrape(self, synergy_html: HTML, *args: str) -> Union[Trait, None]:
+    def __init__(self, trait_name: str):
+        self.trait_name = trait_name
+
+    def scrape(self, synergy_html: HTML) -> Union[Trait, None]:
         trait_div = synergy_html.find(
-            f".guide-synergy-table__synergy.guide-synergy-table__synergy--{''.join(args).lower()}",
+            f".guide-synergy-table__synergy.guide-synergy-table__synergy--{self.trait_name.lower()}",
             first=True,
         )
 

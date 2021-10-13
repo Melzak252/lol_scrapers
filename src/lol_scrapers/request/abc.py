@@ -6,11 +6,11 @@ from requests_html import HTML, AsyncHTMLSession, HTMLSession
 
 class RequestStrategy(ABC):
     @abstractmethod
-    def request(self, session: HTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
+    def request(self, session: HTMLSession) -> Tuple[bool, Union[HTML, None]]:
         pass
 
     @abstractmethod
-    async def arequest(self, session: AsyncHTMLSession, **kwargs) -> Tuple[bool, Union[HTML, None]]:
+    async def arequest(self, session: AsyncHTMLSession) -> Tuple[bool, Union[HTML, None]]:
         pass
 
 
@@ -20,9 +20,9 @@ class LolReq(ABC):
         self.asession = AsyncHTMLSession()
 
     @abstractmethod
-    async def arequest(self, strategy: RequestStrategy, **kwargs) -> Tuple[bool, Union[HTML, None]]:
+    async def arequest(self, strategy: RequestStrategy) -> Tuple[bool, Union[HTML, None]]:
         pass
 
     @abstractmethod
-    def request(self, strategy: RequestStrategy, **kwargs) -> Tuple[bool, Union[HTML, None]]:
+    def request(self, strategy: RequestStrategy) -> Tuple[bool, Union[HTML, None]]:
         pass

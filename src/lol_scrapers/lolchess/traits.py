@@ -12,8 +12,10 @@ class TraitsScraper(ScrapeStrategy):
     def scrape(self, synergies_html: HTML, *args) -> Traits:
         origin_divs, class_divs = synergies_html.find(".row.row-normal")
         traits = []
+
         origins = self._synergies(origin_divs, "origin")
         classes = self._synergies(class_divs, "class")
+
         traits.extend(origins)
         traits.extend(classes)
 
@@ -24,11 +26,13 @@ class TraitsScraper(ScrapeStrategy):
 
     def _synergies(self, traits_div: Element, trait_type: str) -> List[Trait]:
         traits = []
+
         traits_div = traits_div.find(".guide-synergy")
         for trait in traits_div:
             trait = self._trait(trait, trait_type)
             if trait is not None:
                 traits.append(trait)
+
         return traits
 
     def _trait(self, trait: Element, trait_type: str) -> Union[Trait, None]:
