@@ -1,11 +1,13 @@
 from requests_html import HTML
 
 from lol_scrapers.utils import src2https
+from lol_scrapers.utils.dataclasses.champion import Champion
+from lol_scrapers.utils.abc.scraper_strategy import ScrapeStrategy
 
 
-class NameScraper:
+class ChampionScraper(ScrapeStrategy):
 
-    def scrape(self, champion_html: HTML):
+    def scrape(self, champion_html: HTML, *args):
         """Scraps general statistics data from opgg html page abot given champion.
 
         We re looking for roles played on this champion in header of champion page and
@@ -52,10 +54,11 @@ class NameScraper:
             "img", first=True
         )
 
-        return {
-            "name": champion_name.strip(),
-            "description": description.strip(),
-            "icon_src": src2https(champion_img.attrs["src"]),
-            "url": champion_html.url,
-            "tier": champion_tier
-        }
+        champion = Champion(
+            champion_name.strip(),
+            description.strip(),
+            src2https(champion_img.attrs["src"]),
+            champion_html.url,
+            champion_tier
+        )
+        return champion

@@ -2,10 +2,11 @@ from typing import Union, Tuple
 
 from requests_html import HTMLSession, AsyncHTMLSession, HTML
 
-from lol_scrapers.utils import ITEMS_URL, SYNERGY_URL, ARAM_URL, CHAMPION_URL, NOT_FOUND_URLS, abc_lol_req
+from lol_scrapers.utils import ITEMS_URL, SYNERGY_URL, ARAM_URL, CHAMPION_URL, NOT_FOUND_URLS
+from lol_scrapers.utils.abc import lol_req
 
 
-class AsyncLOLRequest(abc_lol_req.LolReq):
+class AsyncLOLRequest(lol_req.LolReq):
     def __init__(self):
         super().__init__()
         self.session = AsyncHTMLSession()
@@ -38,7 +39,7 @@ class AsyncLOLRequest(abc_lol_req.LolReq):
 
         isvalid, role, champion_name = self.processor.process(role, champion_name)
         if not isvalid:
-            return isvalid, role, champion_name
+            return False, None, role
 
         if role == "aram":
             role = ""
@@ -47,7 +48,7 @@ class AsyncLOLRequest(abc_lol_req.LolReq):
             resp = await self.session.get(CHAMPION_URL.format(champion_name, role))
 
         if resp.url in NOT_FOUND_URLS:
-            return True, None
+            return True, None, role
 
         return isvalid, resp.html, role
 
@@ -76,13 +77,11 @@ class AsyncLOLRequest(abc_lol_req.LolReq):
         return resp.html
 
 
-class LOLRequest(abc_lol_req.LolReq):
+class LOLRequest(lol_req.LolReq):
     """This class purpose is to request and return needed HTML objects to scrap data.
 
     Attributes
     ----------
-    asession : AsyncHTMLSession
-        Asynchronous session to request to get HTML object
     session : HTMLSession
         Session to request to get HTML object
 

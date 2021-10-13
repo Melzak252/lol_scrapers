@@ -1,10 +1,11 @@
-from typing import Dict, List
-
 from requests_html import HTML
 
+from lol_scrapers.utils.abc.scraper_strategy import ScrapeStrategy
+from lol_scrapers.utils.dataclasses.trait_names import TraitNames
 
-class TraitNamesScraper:
-    def scrape(self, synergies_html: HTML) -> Dict[str, List[str]]:
+
+class TraitNamesScraper(ScrapeStrategy):
+    def scrape(self, synergies_html: HTML, *args) -> TraitNames:
         """Scraps all traits name from synergies_html
 
         Parameter
@@ -25,6 +26,4 @@ class TraitNamesScraper:
                 trait_name = trait.find("span", first=True).text.strip()
                 traits.append(trait_name)
 
-        return {
-            "traits": traits,
-        }
+        return TraitNames(traits)

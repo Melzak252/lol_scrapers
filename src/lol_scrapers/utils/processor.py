@@ -6,6 +6,20 @@ from lol_scrapers.utils import ROLES
 
 class ChampionNameProcessor:
 
+    def process(self, role, champion_name):
+        isvalid = self._check(role, champion_name)
+
+        if not isvalid:
+            return False, None, None
+
+        role, champion_name = isvalid
+
+        champion_name = self._refactor(champion_name)
+        if not champion_name.isalpha():
+            return False, None, None
+
+        return True, role, champion_name
+
     @staticmethod
     def _refactor(champion_name: Union[Tuple[str], str]) -> str:
         """Refactors given champion tokens to acceptable str format
@@ -81,17 +95,3 @@ class ChampionNameProcessor:
         champion_tuple, role = (role, *champ), ""
 
         return role, champion_tuple
-
-    def process(self, role, champion_name):
-        isvalid = self._check(role, champion_name)
-
-        if not isvalid:
-            return False, None, None
-
-        role, champion_name = isvalid
-
-        champion_name = self._refactor(champion_name)
-        if not champion_name.isalpha():
-            return False, None, None
-
-        return True, role, champion_name
