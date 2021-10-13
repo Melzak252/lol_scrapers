@@ -68,4 +68,4 @@ class RuneScraper(ScrapeStrategy):
         main_tree = self._scrape_tree(main_tree_div)
         secondary_tree = self._scrape_tree(secondary_tree_div)
 
-        return  Runes(rune_name, main_tree, secondary_tree)
+        return Runes(rune_name, main_tree, secondary_tree)

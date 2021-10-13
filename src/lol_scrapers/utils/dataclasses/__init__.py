@@ -11,5 +11,3 @@ class Stats:
 @dataclass
 class RipChamp:
     rip: bool = True
-
-

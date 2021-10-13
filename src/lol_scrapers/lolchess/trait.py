@@ -43,9 +43,9 @@ class TraitScraper(ScrapeStrategy):
             ".guide-synergy-table__synergy__stats", first=True
         ).text.split("\n")
 
-        trait_values = [value.strip() for value in trait_values]
+        values = [value.strip() for value in trait_values]
 
-        return trait_values
+        return values
 
     @staticmethod
     def _champions(trait_div: Element) -> List[TftChampion]:

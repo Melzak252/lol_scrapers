@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 from requests_html import Element, HTML
 
@@ -10,7 +10,7 @@ from lol_scrapers.utils.dataclasses import RipChamp
 
 class ItemScraper(ScrapeStrategy):
 
-    def scrape(self, champion_html: HTML, *args):
+    def scrape(self, champion_html: HTML, *args) -> Union[ChampionItems, RipChamp]:
         items_table = champion_html.find("table.champion-overview__table")
 
         if not items_table:
@@ -62,7 +62,7 @@ class ItemScraper(ScrapeStrategy):
         )
 
     @staticmethod
-    def _item_set(items: List[str], win_rate: Element, pick_rate: Element, imgs_src: List[str]):
+    def _item_set(items_names: List[str], win_rate: Element, pick_rate: Element, imgs_src: List[str]):
         # prepares statistics
         win_rate = win_rate.text.strip()
         pick_rate, times_picked = pick_rate.text.strip().split(" ")
@@ -70,7 +70,7 @@ class ItemScraper(ScrapeStrategy):
         # creates list of item objects
         items = [
             Item(name, src2https(src))
-            for name, src in zip(items, imgs_src)
+            for name, src in zip(items_names, imgs_src)
         ]
 
         item_set = ItemSet(

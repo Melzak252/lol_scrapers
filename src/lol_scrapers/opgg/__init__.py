@@ -1,9 +1,5 @@
 from requests_html import HTML
 
-from lol_scrapers.opgg.items import ItemScraper
-from lol_scrapers.opgg.runes import RuneScraper
-from lol_scrapers.opgg.stats import StatsScraper
-from lol_scrapers.opgg.name import ChampionScraper
 from lol_scrapers.utils.abc.scraper_strategy import ScrapeStrategy
 
 

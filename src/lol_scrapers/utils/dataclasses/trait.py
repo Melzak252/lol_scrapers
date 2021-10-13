@@ -11,4 +11,4 @@ class Trait:
     description: str
     champions: List[TftChampion]
     values: List[str]
-    type: str = None
+    type: str = ""

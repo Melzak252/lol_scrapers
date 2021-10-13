@@ -17,8 +17,8 @@ class IconScraper(ScrapeStrategy):
         if not trait_icon:
             return Icon()
 
-        trait_icon = src2https(trait_icon[0]) if trait_icon else ""
+        icon_src = src2https(trait_icon[0]) if trait_icon else ""
         return Icon(
             name=emblem,
-            src=trait_icon
+            src=icon_src
         )

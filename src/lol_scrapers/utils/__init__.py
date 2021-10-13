@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 ROLES = {
     "top": "top",
     "jungle": "jungle",
