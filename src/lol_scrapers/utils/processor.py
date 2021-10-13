@@ -1,4 +1,4 @@
-from typing import Tuple, Union
+from typing import Tuple
 
 from unidecode import unidecode
 from lol_scrapers.utils import ROLES
