@@ -12,7 +12,6 @@ class RuneName:
 
 @dataclass
 class Runes:
-    main_rune: RuneName
     main_tree: List[RuneName]
     secondary_tree: List[RuneName]
 

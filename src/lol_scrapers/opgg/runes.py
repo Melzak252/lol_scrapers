@@ -55,17 +55,8 @@ class RuneScraper(ScrapeStrategy):
 
     def _scrape_table(self, table: Element):
         main_tree_div, secondary_tree_div = table.find(".perk-page")
-        main_rune_div = table.find(
-            ".perk-page__item.perk-page__item--keystone.perk-page__item--active", first=True
-        )
-
-        main_rune_img = main_rune_div.find("img", first=True)
-
-        main_rune = main_rune_img.attrs["alt"]
-        main_rune_src = main_rune_img.attrs["src"]
-        rune_name = RuneName(main_rune, src2https(main_rune_src))
 
         main_tree = self._scrape_tree(main_tree_div)
         secondary_tree = self._scrape_tree(secondary_tree_div)
 
-        return Runes(rune_name, main_tree, secondary_tree)
+        return Runes(main_tree, secondary_tree)
