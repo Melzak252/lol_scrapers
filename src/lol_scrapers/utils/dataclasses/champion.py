@@ -8,6 +8,7 @@ class Champion:
     icon_src: str
     url: str
     tier: str
+    role: str
 
 
 @dataclass

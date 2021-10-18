@@ -1,6 +1,6 @@
 from requests_html import HTML
 
-from lol_scrapers.utils import src2https
+from lol_scrapers.utils import src2https, ROLES
 from lol_scrapers.utils.dataclasses.champion import Champion
 from lol_scrapers.utils.abc.scraper_strategy import ScrapeStrategy
 
@@ -55,10 +55,20 @@ class ChampionScraper(ScrapeStrategy):
         )
 
         champion = Champion(
-            champion_name.strip(),
-            description.strip(),
-            src2https(champion_img.attrs["src"]),
-            champion_html.url,
-            champion_tier
+            name=champion_name.strip(),
+            description=description.strip(),
+            icon_src=src2https(champion_img.attrs["src"]),
+            url=champion_html.url,
+            tier=champion_tier,
+            role=self.extract_role(champion_html.url)
         )
         return champion
+
+    def extract_role(self, url: str) -> str:
+        tokens = url.split("/")
+        if tokens[-2] in ROLES:
+            return tokens[-2]
+        elif tokens[3] == "aram":
+            return tokens[3]
+
+        return ""
