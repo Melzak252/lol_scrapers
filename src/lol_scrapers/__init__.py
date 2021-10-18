@@ -10,4 +10,4 @@ class LOLScraper:
     def get_data(champion_html: HTML, scraper: ScrapeStrategy, *args):
         assert isinstance(champion_html, HTML)
 
-        return scraper.scrape(champion_html, *args)
+        return scraper.scrape(champion_html)

@@ -10,6 +10,7 @@ ROLES = {
     "support": "support",
     "supp": "support",
     "sup": "support",
+    "aram": "aram"
 }
 
 NOT_FOUND_URLS = [

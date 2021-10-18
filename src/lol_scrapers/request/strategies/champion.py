@@ -14,9 +14,9 @@ class ChampionStrategy(RequestStrategy):
     def request(self, session: HTMLSession) -> Tuple[bool, Union[HTML, None]]:
 
         isvalid, role, champion_name = self.processor.process()
+
         if not isvalid:
             return False, None
-
         if role == "aram":
             role = ""
             resp = session.get(ARAM_URL.format(champion_name, role))

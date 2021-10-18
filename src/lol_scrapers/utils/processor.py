@@ -20,7 +20,6 @@ class ChampionNameProcessor:
     @property
     def name(self) -> str:
         champion_name = "".join(self.champion_tokens)
-
         champion_name = unidecode(champion_name)
 
         if champion_name.lower().startswith("nunu"):
@@ -50,9 +49,10 @@ class ChampionNameProcessor:
                 return False
 
             self.role, *self.champion_tokens = self.champion_tokens
+            self.role = ROLES[self.role]
 
         return True
 
     @staticmethod
     def is_role(token) -> bool:
-        return token.lower() in ROLES or token.lower() == "aram"
+        return token.lower() in ROLES
