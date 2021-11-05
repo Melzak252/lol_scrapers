@@ -28,8 +28,7 @@ class TraitScraper(ScrapeStrategy):
             ".guide-synergy-table__synergy__desc.mb-2", first=True
         )
 
-        if trait_desc is None:
-            trait_desc = ""
+        trait_desc = "" if trait_desc is None else trait_desc.text.strip()
 
         trait_name = trait_div.find("span.align-middle", first=True).text.strip()
 
