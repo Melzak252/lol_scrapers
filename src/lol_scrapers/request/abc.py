@@ -26,3 +26,26 @@ class LolReq(ABC):
     @abstractmethod
     def request(self, strategy: RequestStrategy) -> Tuple[bool, Union[HTML, None]]:
         pass
+
+
+class TftRequestStrategy(RequestStrategy):
+    @property
+    @abstractmethod
+    def url(self) -> str:
+        pass
+
+    def request(self, session: HTMLSession) -> Tuple[bool, Union[HTML, None]]:
+        resp = session.get(self.url)
+
+        if resp.status_code == 200:
+            return True, resp.html
+
+        return False, None
+
+    async def arequest(self, session: AsyncHTMLSession) -> Tuple[bool, Union[HTML, None]]:
+        resp = await session.get(self.url)
+
+        if resp.status_code == 200:
+            return True, resp.html
+
+        return False, None
