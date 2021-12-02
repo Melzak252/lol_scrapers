@@ -104,6 +104,3 @@ class TftMetaScraper(ScrapeStrategy):
                 src=src
             ))
         return components
-
-
-

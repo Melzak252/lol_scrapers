@@ -15,5 +15,3 @@ class MetaComp:
     important_unit: Dict[str, str]
     components: List[PriorityItem]
     stats: TftStats
-
-

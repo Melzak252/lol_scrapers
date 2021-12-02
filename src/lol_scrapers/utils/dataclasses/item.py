@@ -28,4 +28,4 @@ class ChampionItems:
 class PriorityItem:
     name: str
     number: int
-    src: str = None
+    src: str = ""
