@@ -12,7 +12,7 @@ from lol_scrapers.utils.dataclasses.trait_names import TraitNames
 
 class TftMetaScraper(ScrapeStrategy):
     def scrape(self, meta_html: HTML):
-        meta_html.render()
+        meta_html.arender()
         meta_comps = meta_html.find(".deck")
 
         meta = []
