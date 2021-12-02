@@ -22,3 +22,10 @@ class ChampionItems:
     recommended: List[ItemSet]
     boots: List[ItemSet]
     rip: bool
+
+
+@dataclass
+class PriorityItem:
+    name: str
+    number: int
+    src: str = None

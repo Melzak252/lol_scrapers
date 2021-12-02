@@ -22,6 +22,7 @@ CHAMPION_URL = "https://eune.op.gg/champion/{}/statistics/{}"
 ARAM_URL = "https://eune.op.gg/aram/{}/statistics/{}"
 SYNERGY_URL = "https://lolchess.gg/synergies"
 ITEMS_URL = "https://lolchess.gg/items"
+META_URL = "https://lolchess.gg/decks"
 
 
 def src2https(src: str):
