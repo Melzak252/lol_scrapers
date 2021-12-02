@@ -17,3 +17,4 @@ class TftChampion:
     name: str
     cost: str
     items: List[str] = None
+    stars: bool = False

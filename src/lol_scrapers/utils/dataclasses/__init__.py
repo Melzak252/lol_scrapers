@@ -9,5 +9,12 @@ class Stats:
 
 
 @dataclass
+class TftStats:
+    win_rate: str
+    top4: str
+    avg_placement: str
+
+
+@dataclass
 class RipChamp:
     rip: bool = True
