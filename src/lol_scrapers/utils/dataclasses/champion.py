@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
 
@@ -16,5 +16,5 @@ class Champion:
 class TftChampion:
     name: str
     cost: str
-    items: List[str] = []
+    items: List[str] = field(default_factory=list)
     stars: bool = False
