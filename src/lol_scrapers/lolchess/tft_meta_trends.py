@@ -1,3 +1,5 @@
+import asyncio
+
 from requests_html import HTML
 
 from lol_scrapers import ScrapeStrategy
@@ -12,7 +14,8 @@ from lol_scrapers.utils.dataclasses.trait_names import TraitNames
 
 class TftMetaScraper(ScrapeStrategy):
     def scrape(self, meta_html: HTML):
-        meta_html.arender()
+        asyncio.run(meta_html.arender())
+
         meta_comps = meta_html.find(".deck")
 
         meta = []
